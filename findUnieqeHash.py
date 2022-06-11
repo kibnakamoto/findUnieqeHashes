@@ -12,7 +12,7 @@ start_time = time()
 def find_unique_hash():
     timer = time()
     limit = 64; # smallest limit until now
-    for i in range(48124918,2**256):
+    for i in range(97881618,2**256):
         gen_hash = sha256(str(i).encode()).hexdigest()
         
         if int(gen_hash,16) <= 2**200:
@@ -64,11 +64,12 @@ def find_unique_hash():
             limit = len(hex(int(gen_hash,16))[2:])
             
 find_unique_hash()
+print("loop ended, i = 2**256")
 
 ########## TESTS ##########
-# to calculate hash,
-# hash = sha256(str(i).encode()).hexdigest()
 """
- 1. code stopped at tm = 599.153, i = 48,124,918
-
+day 1:
+ 1. killed at tm = 599.153, i = 48,124,918
+ 2. killed at tm = 599.294, i = 97,881,618
+ 3. killed at tm = 599.???, i = ???,???,???
 """
