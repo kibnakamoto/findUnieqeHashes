@@ -7,12 +7,19 @@ global unique_hash
 global hash_size_limit
 start_time = time()
 
-# start from zero in beggining, then start from last largest i value
+# TODO: start from zero in beggining, then start from last largest i value
+
+## approximate amount of combinations to go through
+# raise Exception(int(2**256-146030454))
+## approximate amount of days left if iteration continues for 30 minutes
+# raise Exception(int(2**256/146030454))
+## approximate amout of days left if iteration continued 24 hours a day
+# raise Exception(int(2**256/(50000000*6*24)))
 
 def find_unique_hash():
     timer = time()
     limit = 64; # smallest limit until now
-    for i in range(97881618,2**256):
+    for i in range(146030454,2**256):
         gen_hash = sha256(str(i).encode()).hexdigest()
         
         if int(gen_hash,16) <= 2**200:
@@ -66,10 +73,16 @@ def find_unique_hash():
 find_unique_hash()
 print("loop ended, i = 2**256")
 
+# around 50 million combinations tried per 10 minutes
+
 ########## TESTS ##########
 """
 day 1:
  1. killed at tm = 599.153, i = 48,124,918
  2. killed at tm = 599.294, i = 97,881,618
- 3. killed at tm = 599.???, i = ???,???,???
+ 3. killed at tm = 599.389, i = 146,030,454
+day 2:
+ 1. 
+ 2. 
+ 3. 
 """
