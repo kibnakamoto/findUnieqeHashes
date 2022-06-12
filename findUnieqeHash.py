@@ -19,7 +19,8 @@ start_time = time()
 def find_unique_hash():
     timer = time()
     limit = 64; # smallest limit until now
-    for i in range(146030454,2**256):
+    smallest_hash = 2**256
+    for i in range(182980442,2**256):
         gen_hash = sha256(str(i).encode()).hexdigest()
         
         if int(gen_hash,16) <= 2**200:
@@ -64,14 +65,21 @@ def find_unique_hash():
                 print("curr i: ", i)
                 timer = time()
 
-        if len(hex(int(gen_hash,16))[2:]) <= limit:
+        if int(gen_hash,16) <= smallest_hash:
             print("ch: ", gen_hash, "\t\t\tlen: ", len(hex(int(gen_hash,16))[2:]))
             print("i: ", i)
-            smallest_hash = gen_hash
+            smallest_hash = int(gen_hash,16)
+            smallest_hash_i = i;
             limit = len(hex(int(gen_hash,16))[2:])
-            
+        
+        # print smallest values right before termination
+        if time()-start_time == 599:
+            print("l: ", limit)
+            print("sh: ", smallest_hash);
+            print("sh i: ", smallest_hash_i);
+
 find_unique_hash()
-print("loop ended, i = 2**256")
+print("loop ended, i = 2**256") # impossible
 
 # around 50 million combinations tried per 10 minutes
 
@@ -82,7 +90,7 @@ day 1:
  2. killed at tm = 599.294, i = 97,881,618
  3. killed at tm = 599.389, i = 146,030,454
 day 2:
- 1. 
+ 1. killed at tm = 599.438, i = 182,980,442
  2. 
  3. 
 """
