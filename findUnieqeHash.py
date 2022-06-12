@@ -21,7 +21,7 @@ def find_unique_hash():
     limit = 64; # smallest limit until now
     smallest_hash = 2**256
     printed_unique_value = False;
-    for i in range(689065462,2**256):
+    for i in range(960251933,2**256):
         gen_hash = sha256(str(i).encode()).hexdigest()
         
         # if int(gen_hash,16) <= 2**200:
@@ -66,6 +66,7 @@ def find_unique_hash():
             print("curr i: ", i)
             timer = time()
         
+        
         if int(gen_hash,16) < smallest_hash:
             limit = len(hex(int(gen_hash,16))[2:])
             print("ch: ", gen_hash, "\t\t\tlen: ", limit)
@@ -97,5 +98,7 @@ day 2:
  3. killed at tm = 599.061, i = 426,479,724 # smallest hash value is 56 digits, first value is largest
  4. killed at tm = 597.500, i = 557,589,673 # smallest hash value is 56 digits, same value as previous
  5. killed at tm = 597.551, i = 689,065,462 # smallest hash value is 58 digits
- 6. killed at tm = 597.559, i = 824162261, smalles thash value is 58 digits
+ 6. killed at tm = 597.559, i = 824,162,261, smallest hash value is 58 digits
+ 7. killed at tm = 597.500, i = 960,251,933 # smallest hash value is 57 digits
+ 8. killed at tm = 597.519, i = 1,097,552,799 # smallest hash value is 58 digits
 """
