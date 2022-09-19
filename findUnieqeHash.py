@@ -1,13 +1,11 @@
 from hashlib import sha256
-from time import time
+import secrets
+# from numba import jit, njit, cuda 
+from timeit import default_timer as timer
 
 # how to generate data from 0 to 2^256? until hash equals zero
 # this is to find all possible combinations which is impossible
-global unique_hash
-global hash_size_limit
-start_time = time()
-
-# TODO: start from zero in beggining, then start from last largest i value
+start_time = timer()
 
 ## approximate amount of combinations to go through
 # raise Exception(int(2**256-146030454))
@@ -16,77 +14,36 @@ start_time = time()
 ## approximate amout of days left if iteration continued 24 hours a day
 # raise Exception(int(2**256/(50000000*6*24)))
 
+# @jit(target_backend='cuda')
 def find_unique_hash():
-    timer = time()
+    start = timer()
     limit = 64; # smallest limit until now
-    smallest_hash = 2**256
-    printed_unique_value = False;
-    for i in range(960251933,2**256):
-        gen_hash = sha256(str(i).encode()).hexdigest()
-        
-        # if int(gen_hash,16) <= 2**200:
-        #     unique_hash = int(gen_hash,16)
-        #     hash_size_limit = 2**200
-        #     end_time = time()
-        #     print("hash: ", unique_hash)
-        #     print("i: ", i)
-        #     print("time: ", end_time-start_time)
-        # elif int(gen_hash,16) <= 2**150:
-        #     unique_hash = int(gen_hash,16)
-        #     hash_size_limit = 2**150
-        #     end_time = time()
-        #     print("hash: ", unique_hash)
-        #     print("i: ", i)
-        #     print("time: ", end_time-start_time)
-        # elif int(gen_hash,16) <= 2**100:
-        #     unique_hash = int(gen_hash,16)
-        #     hash_size_limit = 2**100
-        #     end_time = time()
-        #     print("hash: ", unique_hash)
-        #     print("i: ", i)
-        #     print("time: ", end_time-start_time)
-        # elif int(gen_hash,16) <= 2**50:
-        #     unique_hash = int(gen_hash,16)
-        #     hash_size_limit = 2**100
-        #     end_time = time()
-        #     print("hash: ", unique_hash)
-        #     print("i: ", i)
-        #     print("time: ", end_time-start_time)
-        # elif int(gen_hash,16) == 0:
-        #     unique_hash = int(gen_hash,16)
-        #     hash_size_limit = 0
-        #     end_time = time()
-        #     print("hash: ", unique_hash)
-        #     print("i: ", i)
-        #     print("time: ", end_time-start_time)
-        #     break
-        # else:
-        if timer+119.5 <= time() and time()-start_time < 600: # if 75 seconds passed, print time and current i
-            print("tm: ", time()-start_time, end="\t")
-            print("curr i: ", i)
-            timer = time()
+    loop_end_limit = 2**256
+    smallest_hash = loop_end_limit
+    printed_unique_value = False
+    randbelow = 2**1024
+    for i in range(loop_end_limit):
+        nonce = secrets.randbelow(randbelow)
+        gen_hash = sha256(hex(nonce)[2:].encode('utf-8')).hexdigest()
+        if start+119.5 <= timer() and timer()-start_time < 600: 
+            # if 75 seconds passed, print time and current i
+            print(f"tm: {timer()-start_time}\tcurr i: {i}")
+            start = timer()
         
         
         if int(gen_hash,16) < smallest_hash:
             limit = len(hex(int(gen_hash,16))[2:])
-            print("ch: ", gen_hash, "\t\t\tlen: ", limit)
-            print("i: ", i)
+            print(f"ch: {gen_hash}\t\t\tlen: {limit}")
+            print(f"i: {i}")
             smallest_hash = int(gen_hash,16)
             smallest_hash_i = i;
-
-        # print smallest values right before termination
-        if time()-start_time > 599.9 and not printed_unique_value:
-            print("l: ", limit)
-            print("sh: ", smallest_hash);
-            print("sh i: ", smallest_hash_i);
-            printed_unique_value = True;
-
 find_unique_hash()
 print("loop ended, i = 2**256") # impossible
 
-# around 50 million combinations tried per 10 minutes
+# around 50 million combinations tried per 10 minutes on online interpreter without GPU
+# around 16 million combinations tried per 10 seconds on laptop with GPU
 
-########## TESTS ##########
+########## TESTS ON ONLINE INTERPRETER ##########
 """
 day 1:
  1. killed at tm = 599.153, i = 48,124,918 # smallest hash value = is 57 digits
