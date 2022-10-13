@@ -138,3 +138,10 @@ day 2:
  7. killed at tm = 597.500, i = 960,251,933 # smallest hash value is 57 digits
  8. killed at tm = 597.519, i = 1,097,552,799 # smallest hash value is 58 digits
 """
+
+
+########## TESTS ON MULTI-THREAD (18/20 threads) LAPTOP
+"""
+in 60 seconds: 210,099,579 hashes generated, msallest hash value is 0x0000000fb6d3f18414f899db3dd41bce2cb02dd45fccea0535bbd9075b8f20d8
+hashrate: 4 million per second
+"""
